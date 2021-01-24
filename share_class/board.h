@@ -5,13 +5,14 @@
 class Board
 {
 private:
-	int board_entity[board_size] = {0};
+	int board_entity[board_size] = { 0 };
 
 public:
 	int* board;
 	Board();
 	~Board();
 	int* getBoard() const;
+	void setBoard(const int*);
 	int getBoardElement(const int) const;
 	void setBoardElement(const int, const int);
 	void print() const;

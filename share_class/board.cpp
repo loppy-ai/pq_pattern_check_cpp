@@ -15,6 +15,15 @@ int* Board::getBoard() const
 	return board;
 }
 
+void Board::setBoard(const int* input_board)
+{
+	int i;
+	for (i = 0; i < board_size; ++i)
+	{
+		board[i] = input_board[i];
+	}
+}
+
 int Board::getBoardElement(const int no) const
 {
 	return board[no];

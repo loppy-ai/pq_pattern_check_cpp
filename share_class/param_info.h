@@ -12,7 +12,6 @@ private:
 	double chain_coefficient;
 	int max_connection;
 	bool is_process_print;
-	bool is_error;
 
 public:
 	Param_Info(const std::string);
