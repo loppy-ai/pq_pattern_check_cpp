@@ -62,5 +62,4 @@ void Param_Info::print() const
     std::cout << "˜A½ŒW”           : " << getChainCoefficient() << std::endl;
     std::cout << "Á‚¦‚éŽž‚ÌŒ‹‡”   : " << getMaxConnection() << std::endl;
     std::cout << "˜A½‰ß’ö‚Ì•\Ž¦     : " << isProcessPrint() << std::endl;
-    std::cout << std::endl;
 }

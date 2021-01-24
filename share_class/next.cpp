@@ -46,7 +46,6 @@ void Next::print() const
 		<< getNextElement(6)
 		<< getNextElement(7)
 		<< std::endl;
-	std::cout << std::endl;
 }
 
 void Next::print(const std::string title) const

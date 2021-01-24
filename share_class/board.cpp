@@ -49,7 +49,6 @@ void Board::print() const
 			<< getBoardElement(i * column_size + 7)
 			<< std::endl;
 	}
-	std::cout << std::endl;
 }
 
 void Board::print(const std::string title) const
