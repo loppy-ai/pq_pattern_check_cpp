@@ -10,7 +10,7 @@ Param_Info::Param_Info(const std::string file_name)
     elimination_coefficient = param.get<double>("elimination_coefficient");
     chain_coefficient       = param.get<double>("chain_coefficient");
     max_connection          = param.get<int>("max_connection");
-    is_process_print        = param.get<bool>("is_process_print");
+    process_print_flag        = param.get<bool>("process_print_flag");
 }
 
 Param_Info::~Param_Info()
@@ -50,7 +50,7 @@ int Param_Info::getMaxConnection() const
 
 bool Param_Info::isProcessPrint() const
 {
-    return is_process_print;
+    return process_print_flag;
 }
 
 void Param_Info::print() const

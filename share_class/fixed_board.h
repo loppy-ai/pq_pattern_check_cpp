@@ -28,8 +28,10 @@ constexpr int board_pattern_116[board_size] = { 2, 5, 8, 4, 2, 2, 1, 8, 3, 4, 4,
 
 class Fixed_Board : public Board
 {
+private:
+	void setFixedBoard(const int);
+
 public:
 	Fixed_Board(const int);
 	~Fixed_Board();
-	void setFixedBoard(const int);
 };

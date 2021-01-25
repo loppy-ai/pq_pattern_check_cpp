@@ -11,7 +11,7 @@ private:
 	double elimination_coefficient;
 	double chain_coefficient;
 	int max_connection;
-	bool is_process_print;
+	bool process_print_flag;
 
 public:
 	Param_Info(const std::string);

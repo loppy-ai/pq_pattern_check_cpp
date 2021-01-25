@@ -34,6 +34,18 @@ void Next::setNextElement(const int no, const int val)
 	next[no] = val;
 }
 
+bool Next::isNone(const int no) const
+{
+	bool none_flag;
+	if (getNextElement(no) == None) {
+		none_flag = true;
+	}
+	else {
+		none_flag = false;
+	}
+	return none_flag;
+}
+
 void Next::print() const
 {
 	std::cout

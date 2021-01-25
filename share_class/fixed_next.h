@@ -10,8 +10,10 @@ constexpr int next_color_9[next_size] = { 9, 9, 9, 9, 9, 9, 9, 9 };
 
 class Fixed_Next : public Next
 {
+private:
+	void setFixedNext(const int);
+
 public:
 	Fixed_Next(const int);
 	~Fixed_Next();
-	void setFixedNext(const int);
 };
