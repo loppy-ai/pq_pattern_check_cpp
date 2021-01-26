@@ -5,23 +5,21 @@
 #include "check_board.h"
 #include "size.h"
 
-constexpr int max_num_of_chain = 16;
-
 struct Info_Per_Chain {
-	int num_r;
-	int num_b;
-	int num_g;
-	int num_y;
-	int num_p;
-	int num_ojama;
-	int num_kata;
-	int num_heart;
-	int num_prism;
-	int sep_r;
-	int sep_b;
-	int sep_g;
-	int sep_y;
-	int sep_p;
+	int num_r = 0;
+	int num_b = 0;
+	int num_g = 0;
+	int num_y = 0;
+	int num_p = 0;
+	int num_ojama = 0;
+	int num_kata = 0;
+	int num_heart = 0;
+	int num_prism = 0;
+	int sep_r = 0;
+	int sep_b = 0;
+	int sep_g = 0;
+	int sep_y = 0;
+	int sep_p = 0;
 };
 
 class Chain_Info
@@ -45,11 +43,18 @@ private:
 	void debugPrint(const Param_Info*, const Board*, const std::string) const;
 	void debugChain(const int) const;
 
-	int getElementCount(const int, const int) const;
-	int getSeparateCount(const int, const int) const;
+	int getElementCountPerColorAndChain(const int, const int) const;
+	int getSeparateCountPerColorAndChain(const int, const int) const;
+	int getSeparateCountPerChain(const int) const;
+	double getMagnificationPerColorAndChain(const Param_Info*, const int, const int) const;
+	double getMagnificationPerColorAndChain(const Param_Info*, const double, const double, const int, const int) const;
 
 public:
 	Chain_Info(const Param_Info*, Next*, Board*, const Board*);
 	~Chain_Info();
+	int getNumOfChain() const;
+	int getElementCountPerColor(const int) const;
+	int getElementCountPerChain(const int) const;
+	double getMagnificationPerColor(const Param_Info*, const int) const;
+	double getMagnificationPerColor(const Param_Info*, const double, const double, const int) const;
 };
-

@@ -208,17 +208,26 @@ bool Board::isSameLeft(const int no) const
 
 void Board::print() const
 {
-	int i;
+	int i, j;
+	std::string str_board[column_size];
 	for (i = 0; i < row_size; ++i) {
+		for (j = 0; j < column_size; ++j) {
+			if (getBoardElement(i * column_size + j) == None) {
+				str_board[j] = ".";
+			}
+			else {
+				str_board[j] = std::to_string(getBoardElement(i * column_size + j));
+			}
+		}
 		std::cout 
-			<< getBoardElement(i * column_size + 0) 
-			<< getBoardElement(i * column_size + 1)
-			<< getBoardElement(i * column_size + 2)
-			<< getBoardElement(i * column_size + 3)
-			<< getBoardElement(i * column_size + 4)
-			<< getBoardElement(i * column_size + 5)
-			<< getBoardElement(i * column_size + 6)
-			<< getBoardElement(i * column_size + 7)
+			<< str_board[0] << " "
+			<< str_board[1] << " "
+			<< str_board[2] << " "
+			<< str_board[3] << " "
+			<< str_board[4] << " "
+			<< str_board[5] << " "
+			<< str_board[6] << " "
+			<< str_board[7] << " "
 			<< std::endl;
 	}
 }

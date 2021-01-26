@@ -10,7 +10,9 @@ Param_Info::Param_Info(const std::string file_name)
     elimination_coefficient = param.get<double>("elimination_coefficient");
     chain_coefficient       = param.get<double>("chain_coefficient");
     max_connection          = param.get<int>("max_connection");
-    process_print_flag        = param.get<bool>("process_print_flag");
+    process_print_flag      = param.get<bool>("process_print_flag");
+    chain_coefficient_list = chain_coefficient_list_entity;
+    setChainCoefficientList();
 }
 
 Param_Info::~Param_Info()
@@ -46,6 +48,24 @@ double Param_Info::getChainCoefficient() const
 int Param_Info::getMaxConnection() const
 {
     return max_connection;
+}
+
+double Param_Info::getChainMagnification(const int chain_count) const
+{
+    return chain_coefficient_list[chain_count];
+}
+
+double Param_Info::getChainMagnification(const int chain_count, const double chain_coefficient) const
+{
+    return 1 + basic_chain_coefficient[chain_count] * chain_coefficient;
+}
+
+void Param_Info::setChainCoefficientList()
+{
+    int i;
+    for (i = 0; i < max_num_of_chain; ++i) {
+        chain_coefficient_list_entity[i] = 1 + basic_chain_coefficient[i] * getChainCoefficient();
+    }
 }
 
 bool Param_Info::isProcessPrint() const

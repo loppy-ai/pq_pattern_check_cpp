@@ -39,7 +39,7 @@ void Trace_Pattern_Board::readFromStream(std::istream& is)
         }
         else {
             for (i = 0; i < column_size; ++i) {
-                board[line_count * column_size + i] = line[i] - 48;  // '0' ‚Í 48
+                setBoardElement(line_count * column_size + i, line[i] - 48);
             }
             line_count++;
             if (line_count == row_size) {

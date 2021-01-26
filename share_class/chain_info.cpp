@@ -14,9 +14,7 @@ void Chain_Info::chain(const Param_Info *pi, Next *next, Board *board, const Boa
 {
 	bool chaining_flag = true;
 	int chain_count;
-	if (pi->isProcessPrint()) {
-		std::cout << "---------------------連鎖過程---------------------" << std::endl;
-	}
+	std::cout << "---------------------連鎖過程---------------------" << std::endl;
 	debugPrint(pi, next, board, "default");
 	debugPrint(pi, trace_pattern_board, "tracePattern");
 	// 盤面に対してなぞり消しパターンを適用
@@ -293,7 +291,7 @@ void Chain_Info::debugPrint(const Param_Info *pi, const Next* next, const Board*
 	if (pi->isProcessPrint()) {
 		std::cout << str << std::endl;
 		next->print();
-		std::cout << "--------" << std::endl;
+		std::cout << "---------------" << std::endl;
 		board->print();
 		std::cout << std::endl;
 	}
@@ -303,8 +301,8 @@ void Chain_Info::debugPrint(const Param_Info* pi, const Board* board, const std:
 {
 	if (pi->isProcessPrint()) {
 		std::cout << str << std::endl;
-		std::cout << "[ none ]" << std::endl;
-		std::cout << "--------" << std::endl;
+		std::cout << "0 0 0 0 0 0 0 0" << std::endl;
+		std::cout << "---------------" << std::endl;
 		board->print();
 		std::cout << std::endl;
 	}
@@ -312,47 +310,48 @@ void Chain_Info::debugPrint(const Param_Info* pi, const Board* board, const std:
 
 void Chain_Info::debugChain(const int chain_count) const
 {
+	int cc = chain_count - 1;
 	std::cout << chain_count << "連鎖目" << std::endl;
-	std::cout << "赤個数:" << getElementCount(Red, chain_count) << " 赤分離数:" << getSeparateCount(Red, chain_count) << std::endl;
-	std::cout << "青個数:" << getElementCount(Blue, chain_count) << " 青分離数:" << getSeparateCount(Blue, chain_count) << std::endl;
-	std::cout << "緑個数:" << getElementCount(Green, chain_count) << " 緑分離数:" << getSeparateCount(Green, chain_count) << std::endl;
-	std::cout << "黄個数:" << getElementCount(Yellow, chain_count) << " 黄分離数:" << getSeparateCount(Yellow, chain_count) << std::endl;
-	std::cout << "紫個数:" << getElementCount(Purple, chain_count) << " 紫分離数:" << getSeparateCount(Purple, chain_count) << std::endl;
-	std::cout << "邪個数:" << getElementCount(Ojama, chain_count) << " 固個数:" << getElementCount(Kata, chain_count) << " ハ個数:" << getElementCount(Heart, chain_count) << " プ個数:" << getElementCount(Prism, chain_count) << std::endl;
+	std::cout << "赤個数:" << getElementCountPerColorAndChain(Red, cc) << " 赤分離:" << getSeparateCountPerColorAndChain(Red, cc) << std::endl;
+	std::cout << "青個数:" << getElementCountPerColorAndChain(Blue, cc) << " 青分離:" << getSeparateCountPerColorAndChain(Blue, cc) << std::endl;
+	std::cout << "緑個数:" << getElementCountPerColorAndChain(Green, cc) << " 緑分離:" << getSeparateCountPerColorAndChain(Green, cc) << std::endl;
+	std::cout << "黄個数:" << getElementCountPerColorAndChain(Yellow, cc) << " 黄分離:" << getSeparateCountPerColorAndChain(Yellow, cc) << std::endl;
+	std::cout << "紫個数:" << getElementCountPerColorAndChain(Purple, cc) << " 紫分離:" << getSeparateCountPerColorAndChain(Purple, cc) << std::endl;
+	std::cout << "邪個数:" << getElementCountPerColorAndChain(Ojama, cc) << " 固個数:" << getElementCountPerColorAndChain(Kata, cc) << " ハ個数:" << getElementCountPerColorAndChain(Heart, cc) << " プ個数:" << getElementCountPerColorAndChain(Prism, cc) << std::endl;
 	std::cout << std::endl;
 }
 
-int Chain_Info::getElementCount(const int color, const int chain_count) const
+int Chain_Info::getElementCountPerColorAndChain(const int color, const int chain_count) const
 {
 	int count = 0;
 	switch (color)
 	{
 	case Red:
-		count = all_chain_info[chain_count - 1].num_r;
+		count = all_chain_info[chain_count].num_r;
 		break;
 	case Blue:
-		count = all_chain_info[chain_count - 1].num_b;
+		count = all_chain_info[chain_count].num_b;
 		break;
 	case Green:
-		count = all_chain_info[chain_count - 1].num_g;
+		count = all_chain_info[chain_count].num_g;
 		break;
 	case Yellow:
-		count = all_chain_info[chain_count - 1].num_y;
+		count = all_chain_info[chain_count].num_y;
 		break;
 	case Purple:
-		count = all_chain_info[chain_count - 1].num_p;
+		count = all_chain_info[chain_count].num_p;
 		break;
 	case Ojama:
-		count = all_chain_info[chain_count - 1].num_ojama;
+		count = all_chain_info[chain_count].num_ojama;
 		break;
 	case Kata:
-		count = all_chain_info[chain_count - 1].num_kata;
+		count = all_chain_info[chain_count].num_kata;
 		break;
 	case Heart:
-		count = all_chain_info[chain_count - 1].num_heart;
+		count = all_chain_info[chain_count].num_heart;
 		break;
 	case Prism:
-		count = all_chain_info[chain_count - 1].num_prism;
+		count = all_chain_info[chain_count].num_prism;
 		break;
 	default:
 		break;
@@ -360,28 +359,131 @@ int Chain_Info::getElementCount(const int color, const int chain_count) const
 	return count;
 }
 
-int Chain_Info::getSeparateCount(const int color, const int chain_count) const
+int Chain_Info::getSeparateCountPerColorAndChain(const int color, const int chain_count) const
 {
 	int count = 0;
 	switch (color)
 	{
 	case Red:
-		count = all_chain_info[chain_count - 1].sep_r;
+		count = all_chain_info[chain_count].sep_r;
 		break;
 	case Blue:
-		count = all_chain_info[chain_count - 1].sep_b;
+		count = all_chain_info[chain_count].sep_b;
 		break;
 	case Green:
-		count = all_chain_info[chain_count - 1].sep_g;
+		count = all_chain_info[chain_count].sep_g;
 		break;
 	case Yellow:
-		count = all_chain_info[chain_count - 1].sep_y;
+		count = all_chain_info[chain_count].sep_y;
 		break;
 	case Purple:
-		count = all_chain_info[chain_count - 1].sep_p;
+		count = all_chain_info[chain_count].sep_p;
 		break;
 	default:
 		break;
 	}
 	return count;
+}
+
+int Chain_Info::getSeparateCountPerChain(const int chain_count) const
+{
+	int count = 0;
+	count = getSeparateCountPerColorAndChain(Red, chain_count)
+		+ getSeparateCountPerColorAndChain(Blue, chain_count)
+		+ getSeparateCountPerColorAndChain(Green, chain_count)
+		+ getSeparateCountPerColorAndChain(Yellow, chain_count)
+		+ getSeparateCountPerColorAndChain(Purple, chain_count);
+	return count;
+}
+
+double Chain_Info::getMagnificationPerColorAndChain(const Param_Info* pi, const int color, const int chain_count) const
+{
+	double magnification = 0.0;
+	switch (color)
+	{
+	case Red:
+	case Blue:
+	case Green:
+	case Yellow:
+	case Purple:
+		// (連鎖係数 * (1 + (同時に消した数 - 3or4) * 0.15 * 同時消し係数)) * 分離数 + 3 * プリボの数
+		magnification = (pi->getChainMagnification(chain_count) * (1 + (getElementCountPerChain(chain_count) - pi->getMaxConnection()) * 0.15 * pi->getEliminationCoefficient())) * getSeparateCountPerColorAndChain(color, chain_count) + 3 * getElementCountPerColorAndChain(Prism, chain_count);
+		break;
+	case None:	// ワイルド
+		magnification = (pi->getChainMagnification(chain_count) * (1 + (getElementCountPerChain(chain_count) - pi->getMaxConnection()) * 0.15 * pi->getEliminationCoefficient())) * getSeparateCountPerChain(chain_count) + 3 * getElementCountPerColorAndChain(Prism, chain_count);
+		break;
+	default:
+		break;
+	}
+	return magnification;
+}
+
+double Chain_Info::getMagnificationPerColorAndChain(const Param_Info *pi, const double elimination_coefficient, const double chain_coefficient, const int color, const int chain_count) const
+{
+	double magnification = 0.0;
+	switch (color)
+	{
+	case Red:
+	case Blue:
+	case Green:
+	case Yellow:
+	case Purple:
+		// (連鎖係数 * (1 + (同時に消した数 - 3or4) * 0.15 * 同時消し係数)) * 分離数 + 3 * プリボの数
+		magnification = (pi->getChainMagnification(chain_count, chain_coefficient) * (1 + (getElementCountPerChain(chain_count) - pi->getMaxConnection()) * 0.15 * elimination_coefficient)) * getSeparateCountPerColorAndChain(color, chain_count) + 3 * getElementCountPerColorAndChain(Prism, chain_count);
+		break;
+	case None:	// ワイルド
+		magnification = (pi->getChainMagnification(chain_count, chain_coefficient) * (1 + (getElementCountPerChain(chain_count) - pi->getMaxConnection()) * 0.15 * elimination_coefficient)) * getSeparateCountPerChain(chain_count) + 3 * getElementCountPerColorAndChain(Prism, chain_count);
+		break;
+	default:
+		break;
+	}
+	return magnification;
+}
+
+int Chain_Info::getNumOfChain() const
+{
+	return num_of_chain;
+}
+
+int Chain_Info::getElementCountPerColor(const int color) const
+{
+	int i;
+	int sum = 0;
+	for (i = 0; i < getNumOfChain(); ++i) {
+		sum += getElementCountPerColorAndChain(color, i);
+	}
+	return sum;
+}
+
+int Chain_Info::getElementCountPerChain(const int chain_count) const
+{
+	int sum;
+	sum = getElementCountPerColorAndChain(Red, chain_count)
+		+ getElementCountPerColorAndChain(Blue, chain_count)
+		+ getElementCountPerColorAndChain(Green, chain_count)
+		+ getElementCountPerColorAndChain(Yellow, chain_count)
+		+ getElementCountPerColorAndChain(Purple, chain_count)
+		+ getElementCountPerColorAndChain(Ojama, chain_count)
+		+ getElementCountPerColorAndChain(Kata, chain_count);
+	return sum;
+}
+
+double Chain_Info::getMagnificationPerColor(const Param_Info *pi, const int color) const
+{
+	int i;
+	double sum = 0.0;
+	for (i = 0; i < getNumOfChain(); ++i) {
+		sum += getMagnificationPerColorAndChain(pi, color, i);
+	}
+	return sum;
+}
+
+double Chain_Info::getMagnificationPerColor(const Param_Info *pi, const double elimination_coefficient, const double chain_coefficient, const int color) const
+{
+	int i;
+	double sum = 0.0;
+	for (i = 0; i < getNumOfChain(); ++i) {
+		sum += getMagnificationPerColorAndChain(pi, elimination_coefficient, chain_coefficient, color, i);
+	}
+	return sum;
 }

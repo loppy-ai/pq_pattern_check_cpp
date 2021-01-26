@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 #include "size.h"
 #include "element.h"
 
@@ -7,12 +8,12 @@ class Board
 {
 private:
 	int board_entity[board_size] = { 0 };
+	int *board;
 
 public:
-	int* board;
 	Board();
 	~Board();
-	int* getBoard() const;
+	int *getBoard() const;
 	void setBoard(const int*);
 	int getBoardElement(const int) const;
 	void setBoardElement(const int, const int);

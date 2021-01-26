@@ -48,15 +48,25 @@ bool Next::isNone(const int no) const
 
 void Next::print() const
 {
+	int i;
+	std::string str_next[column_size];
+	for (i = 0; i < column_size; ++i) {
+		if (getNextElement(i) == None) {
+			str_next[i] = ".";
+		}
+		else {
+			str_next[i] = std::to_string(getNextElement(i));
+		}
+	}
 	std::cout
-		<< getNextElement(0)
-		<< getNextElement(1)
-		<< getNextElement(2)
-		<< getNextElement(3)
-		<< getNextElement(4)
-		<< getNextElement(5)
-		<< getNextElement(6)
-		<< getNextElement(7)
+		<< str_next[0] << " "
+		<< str_next[1] << " "
+		<< str_next[2] << " "
+		<< str_next[3] << " "
+		<< str_next[4] << " "
+		<< str_next[5] << " "
+		<< str_next[6] << " "
+		<< str_next[7] << " "
 		<< std::endl;
 }
 
