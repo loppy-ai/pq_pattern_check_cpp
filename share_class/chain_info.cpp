@@ -1,6 +1,6 @@
 #include "chain_info.h"
 
-Chain_Info::Chain_Info(const Param_Info *pi, Next *next, Board *board, const Board *trace_pattern_board)
+Chain_Info::Chain_Info(const Param_Info* pi, Next* next, Board* board, const Board* trace_pattern_board)
 {
 	chain(pi, next, board, trace_pattern_board);
 }
@@ -10,7 +10,8 @@ Chain_Info::~Chain_Info()
 
 }
 
-void Chain_Info::chain(const Param_Info *pi, Next *next, Board *board, const Board *trace_pattern_board)
+// 連鎖処理
+void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Board* trace_pattern_board)
 {
 	bool chaining_flag = true;
 	int chain_count;
@@ -30,24 +31,21 @@ void Chain_Info::chain(const Param_Info *pi, Next *next, Board *board, const Boa
 		Check_Board check_board;
 		// 結合チェック
 		checkConnection(chain_count, pi, board, &check_board);
-		// 結合チェック用盤面インスタンスの破棄
-		// delete &check_board;
-		// ぷよが消えた場合
 		if (board->isEliminationHappened()) {
-			// 次の連鎖
+			// ぷよが消えたら次の連鎖
 			++chain_count;
 			debugPrint(pi, next, board, "elimination");
 			debugChain(chain_count);
 			dropBoard(board);
 			debugPrint(pi, next, board, "dropBoard");
 		}
-		// 消えなかった場合
 		else {
-			// nextを落とす
+			// ぷよが消えなかったらnextを落とす
 			bool drop_next_flag;
 			drop_next_flag = dropNext(next, board);
 			debugPrint(pi, next, board, "dropNext");
 			if (!drop_next_flag) {
+				// nextが落ちなくなったら連鎖終了
 				chaining_flag = false;
 			}
 		}
@@ -58,7 +56,8 @@ void Chain_Info::chain(const Param_Info *pi, Next *next, Board *board, const Boa
 	}
 }
 
-void Chain_Info::applyTracePattern(Board *board, const Board *trace_pattern_board) {
+// なぞり消しパターンを適用
+void Chain_Info::applyTracePattern(Board* board, const Board* trace_pattern_board) {
 	int i;
 	for (i = 0; i < board_size; ++i) {
 		if (trace_pattern_board->getBoardElement(i) == 1) {
@@ -67,7 +66,8 @@ void Chain_Info::applyTracePattern(Board *board, const Board *trace_pattern_boar
 	}
 }
 
-void Chain_Info::dropBoard(Board *board)
+// 消えたぷよの上にあるものを落とす
+void Chain_Info::dropBoard(Board* board)
 {
 	// 0:なぞったor結合して消えた 9:落ちて消えた
 	int i, target;
@@ -95,7 +95,8 @@ void Chain_Info::dropBoard(Board *board)
 	}
 }
 
-void Chain_Info::checkConnection(const int chain_count, const Param_Info *pi, Board *board, Check_Board *check_board)
+// 結合チェック
+void Chain_Info::checkConnection(const int chain_count, const Param_Info* pi, Board* board, Check_Board* check_board)
 {
 	int i, j;
 	// 色ぷよ以外はチェック済(未結合)にする
@@ -154,7 +155,8 @@ void Chain_Info::checkConnection(const int chain_count, const Param_Info *pi, Bo
 	}
 }
 
-int Chain_Info::recursionCheckConnection(const int i, Board *board, Check_Board *check_board, int count)
+// 結合チェック（再帰用）
+int Chain_Info::recursionCheckConnection(const int i, Board* board, Check_Board* check_board, int count)
 {
 	// 確認中
 	check_board->setBoardElementChecking(i);
@@ -187,7 +189,8 @@ int Chain_Info::recursionCheckConnection(const int i, Board *board, Check_Board 
 	return count;
 }
 
-void Chain_Info::checkConnectionOther(const int i, const int chain_count, Board *board)
+// 巻き込まれて消えるものの処理
+void Chain_Info::checkConnectionOther(const int i, const int chain_count, Board* board)
 {
 	int color = board->getBoardElement(i);
 	switch (color)
@@ -196,6 +199,7 @@ void Chain_Info::checkConnectionOther(const int i, const int chain_count, Board 
 		board->setBoardElement(i, Elimination);
 		break;
 	case Kata:
+		// 消えるとお邪魔になる
 		board->setBoardElement(i, Ojama);
 		break;
 	case Heart:
@@ -210,6 +214,7 @@ void Chain_Info::checkConnectionOther(const int i, const int chain_count, Board 
 	setElementCount(color, chain_count, 1);
 }
 
+// ネクストを落とす
 bool Chain_Info::dropNext(Next* next, Board* board)
 {
 	int i;
@@ -227,6 +232,7 @@ bool Chain_Info::dropNext(Next* next, Board* board)
 	return drop_next_flag;
 }
 
+// ある色・ある連鎖での消去数を登録
 void Chain_Info::setElementCount(const int color, const int chain_count, const int count)
 {
 	switch (color)
@@ -262,6 +268,7 @@ void Chain_Info::setElementCount(const int color, const int chain_count, const i
 	}
 }
 
+// ある色・ある連鎖での分離数を登録
 void Chain_Info::setSeparateCount(const int color, const int chain_count)
 {
 	switch (color)
@@ -286,7 +293,8 @@ void Chain_Info::setSeparateCount(const int color, const int chain_count)
 	}
 }
 
-void Chain_Info::debugPrint(const Param_Info *pi, const Next* next, const Board* board, const std::string str) const
+// 盤面表示
+void Chain_Info::debugPrint(const Param_Info* pi, const Next* next, const Board* board, const std::string str) const
 {
 	if (pi->isProcessPrint()) {
 		std::cout << str << std::endl;
@@ -297,6 +305,7 @@ void Chain_Info::debugPrint(const Param_Info *pi, const Next* next, const Board*
 	}
 }
 
+// 盤面表示
 void Chain_Info::debugPrint(const Param_Info* pi, const Board* board, const std::string str) const
 {
 	if (pi->isProcessPrint()) {
@@ -308,6 +317,7 @@ void Chain_Info::debugPrint(const Param_Info* pi, const Board* board, const std:
 	}
 }
 
+// 連鎖数ごとの情報表示
 void Chain_Info::debugChain(const int chain_count) const
 {
 	int cc = chain_count - 1;
@@ -321,6 +331,7 @@ void Chain_Info::debugChain(const int chain_count) const
 	std::cout << std::endl;
 }
 
+// ある色・ある連鎖での消去数を取得
 int Chain_Info::getElementCountPerColorAndChain(const int color, const int chain_count) const
 {
 	int count = 0;
@@ -359,6 +370,7 @@ int Chain_Info::getElementCountPerColorAndChain(const int color, const int chain
 	return count;
 }
 
+// ある色・ある連鎖での分離数を取得
 int Chain_Info::getSeparateCountPerColorAndChain(const int color, const int chain_count) const
 {
 	int count = 0;
@@ -385,6 +397,8 @@ int Chain_Info::getSeparateCountPerColorAndChain(const int color, const int chai
 	return count;
 }
 
+
+// ある連鎖数での全分離数を取得
 int Chain_Info::getSeparateCountPerChain(const int chain_count) const
 {
 	int count = 0;
@@ -396,6 +410,7 @@ int Chain_Info::getSeparateCountPerChain(const int chain_count) const
 	return count;
 }
 
+// ある色・ある連鎖での倍率を取得
 double Chain_Info::getMagnificationPerColorAndChain(const Param_Info* pi, const int color, const int chain_count) const
 {
 	double magnification = 0.0;
@@ -418,7 +433,8 @@ double Chain_Info::getMagnificationPerColorAndChain(const Param_Info* pi, const 
 	return magnification;
 }
 
-double Chain_Info::getMagnificationPerColorAndChain(const Param_Info *pi, const double elimination_coefficient, const double chain_coefficient, const int color, const int chain_count) const
+// ある色・ある連鎖での倍率を取得
+double Chain_Info::getMagnificationPerColorAndChain(const Param_Info* pi, const double elimination_coefficient, const double chain_coefficient, const int color, const int chain_count) const
 {
 	double magnification = 0.0;
 	switch (color)
@@ -440,11 +456,13 @@ double Chain_Info::getMagnificationPerColorAndChain(const Param_Info *pi, const 
 	return magnification;
 }
 
+// 最大連鎖数を取得
 int Chain_Info::getNumOfChain() const
 {
 	return num_of_chain;
 }
 
+// ある色の全消去数を取得
 int Chain_Info::getElementCountPerColor(const int color) const
 {
 	int i;
@@ -455,6 +473,7 @@ int Chain_Info::getElementCountPerColor(const int color) const
 	return sum;
 }
 
+// ある連鎖の全消去数を取得
 int Chain_Info::getElementCountPerChain(const int chain_count) const
 {
 	int sum;
@@ -468,7 +487,8 @@ int Chain_Info::getElementCountPerChain(const int chain_count) const
 	return sum;
 }
 
-double Chain_Info::getMagnificationPerColor(const Param_Info *pi, const int color) const
+// ある色の合計倍率を取得
+double Chain_Info::getMagnificationPerColor(const Param_Info* pi, const int color) const
 {
 	int i;
 	double sum = 0.0;
@@ -478,7 +498,8 @@ double Chain_Info::getMagnificationPerColor(const Param_Info *pi, const int colo
 	return sum;
 }
 
-double Chain_Info::getMagnificationPerColor(const Param_Info *pi, const double elimination_coefficient, const double chain_coefficient, const int color) const
+// ある色の合計倍率を取得
+double Chain_Info::getMagnificationPerColor(const Param_Info* pi, const double elimination_coefficient, const double chain_coefficient, const int color) const
 {
 	int i;
 	double sum = 0.0;

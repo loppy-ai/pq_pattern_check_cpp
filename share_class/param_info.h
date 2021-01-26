@@ -8,15 +8,15 @@ constexpr double basic_chain_coefficient[max_num_of_chain] = { 0, 0.4, 0.7, 1.0,
 class Param_Info
 {
 private:
-	int next_color;
-	int board_pattern;
-	int max_trace;
-	double elimination_coefficient;
-	double chain_coefficient;
-	int max_connection;
-	bool process_print_flag;
-	double chain_coefficient_list_entity[max_num_of_chain] = { 0.0 };
-	double *chain_coefficient_list;
+	int next_color;						// ネクストの色
+	int board_pattern;					// 盤面パターン
+	int max_trace;						// 最大なぞり消し数
+	double elimination_coefficient;		// 同時消し係数
+	double chain_coefficient;			// 連鎖係数倍率
+	int max_connection;					// 最大結合数
+	bool process_print_flag;			// 連鎖過程表示フラグ
+	double chain_coefficient_list_entity[max_num_of_chain] = { 0.0 };	// 連鎖係数リストの実体
+	double *chain_coefficient_list;										// 連鎖係数リストのアドレス
 	void setChainCoefficientList();
 
 public:

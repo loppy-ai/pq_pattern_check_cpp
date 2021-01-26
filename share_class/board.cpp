@@ -10,30 +10,28 @@ Board::~Board()
 
 }
 
-int* Board::getBoard() const
-{
-	return board;
-}
-
+// 盤面初期化
 void Board::setBoard(const int* input_board)
 {
 	int i;
-	for (i = 0; i < board_size; ++i)
-	{
+	for (i = 0; i < board_size; ++i) {
 		setBoardElement(i, input_board[i]);
 	}
 }
 
+// 盤面の要素を取得
 int Board::getBoardElement(const int no) const
 {
 	return board[no];
 }
 
+// 盤面に要素を設定
 void Board::setBoardElement(const int no, const int val)
 {
 	board[no] = val;
 }
 
+// 色ぷよか
 bool Board::isColorPuyo(const int no) const
 {
 	bool color_puyo_flag;
@@ -51,7 +49,7 @@ bool Board::isColorPuyo(const int no) const
 	case None:		// 無し
 		color_puyo_flag = false;
 		break;
-	case Prism:	// プリズム
+	case Prism:		// プリズム
 		color_puyo_flag = false;
 		break;
 	default:
@@ -61,6 +59,7 @@ bool Board::isColorPuyo(const int no) const
 	return color_puyo_flag;
 }
 
+// 周囲に巻き込まれて消えるか
 bool Board::isInfluenced(const int no) const
 {
 	bool influenced_flag;
@@ -75,7 +74,7 @@ bool Board::isInfluenced(const int no) const
 	case Heart:		// ハート
 		influenced_flag = true;
 		break;
-	case Prism:	// プリズム
+	case Prism:		// プリズム
 		influenced_flag = true;
 		break;
 	default:
@@ -85,6 +84,7 @@ bool Board::isInfluenced(const int no) const
 	return influenced_flag;
 }
 
+// ぷよが存在しないか
 bool Board::isNone(const int no) const
 {
 	bool none_flag;
@@ -97,6 +97,7 @@ bool Board::isNone(const int no) const
 	return none_flag;
 }
 
+// ぷよの結合が起こったか
 bool Board::isEliminationHappened() const
 {
 	int i;
@@ -110,6 +111,7 @@ bool Board::isEliminationHappened() const
 	return elimination_flag;
 }
 
+// 上段があるか
 bool Board::canGetUpperRow(const int no) const
 {
 	bool can_get_flag;
@@ -122,6 +124,7 @@ bool Board::canGetUpperRow(const int no) const
 	return can_get_flag;
 }
 
+// 右列があるか
 bool Board::canGetRightColumn(const int no) const
 {
 	bool can_get_flag;
@@ -134,6 +137,7 @@ bool Board::canGetRightColumn(const int no) const
 	return can_get_flag;
 }
 
+// 下段があるか
 bool Board::canGetLowerRow(const int no) const
 {
 	bool can_get_flag;
@@ -146,6 +150,7 @@ bool Board::canGetLowerRow(const int no) const
 	return can_get_flag;
 }
 
+// 左列があるか
 bool Board::canGetLeftColumn(const int no) const
 {
 	bool can_get_flag;
@@ -158,6 +163,7 @@ bool Board::canGetLeftColumn(const int no) const
 	return can_get_flag;
 }
 
+// 現在の箇所が上の色と同じか
 bool Board::isSameUpper(const int no) const
 {
 	bool is_same_flag;
@@ -170,6 +176,7 @@ bool Board::isSameUpper(const int no) const
 	return is_same_flag;
 }
 
+// 現在の箇所が右の色と同じか
 bool Board::isSameRight(const int no) const
 {
 	bool is_same_flag;
@@ -182,6 +189,7 @@ bool Board::isSameRight(const int no) const
 	return is_same_flag;
 }
 
+// 現在の箇所が下の色と同じか
 bool Board::isSameLower(const int no) const
 {
 	bool is_same_flag;
@@ -194,6 +202,7 @@ bool Board::isSameLower(const int no) const
 	return is_same_flag;
 }
 
+// 現在の箇所が左の色と同じか
 bool Board::isSameLeft(const int no) const
 {
 	bool is_same_flag;
@@ -206,6 +215,7 @@ bool Board::isSameLeft(const int no) const
 	return is_same_flag;
 }
 
+// 盤面表示
 void Board::print() const
 {
 	int i, j;
@@ -232,8 +242,10 @@ void Board::print() const
 	}
 }
 
+// 盤面表示
 void Board::print(const std::string title) const
 {
 	std::cout << title << std::endl;
 	Board::print();
+	std::cout << std::endl;
 }

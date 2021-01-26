@@ -12,6 +12,7 @@ Trace_Pattern_Board::~Trace_Pattern_Board()
 
 }
 
+// ファイル読み込み処理
 void Trace_Pattern_Board::loadFromFile(const std::string file_name)
 {
     std::ifstream is(file_name);
@@ -23,6 +24,7 @@ void Trace_Pattern_Board::loadFromFile(const std::string file_name)
     readFromStream(is);
 }
 
+// ファイル内容読み込み処理
 void Trace_Pattern_Board::readFromStream(std::istream& is)
 {
     std::string line;
@@ -54,6 +56,7 @@ void Trace_Pattern_Board::readFromStream(std::istream& is)
     }
 }
 
+// エラー判定
 bool Trace_Pattern_Board::isError()
 {
     return error_flag;

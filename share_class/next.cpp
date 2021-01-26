@@ -10,11 +10,7 @@ Next::~Next()
 
 }
 
-int* Next::getNext() const
-{
-	return next;
-}
-
+// ネクスト全てをある色に設定
 void Next::setNext(const int* input_next)
 {
 	int i;
@@ -24,16 +20,19 @@ void Next::setNext(const int* input_next)
 	}
 }
 
+// ネクストの要素を取得
 int Next::getNextElement(const int no) const
 {
 	return next[no];
 }
 
+// ネクストの要素を設定
 void Next::setNextElement(const int no, const int val)
 {
 	next[no] = val;
 }
 
+// ネクストがあるか
 bool Next::isNone(const int no) const
 {
 	bool none_flag;
@@ -46,6 +45,7 @@ bool Next::isNone(const int no) const
 	return none_flag;
 }
 
+// 盤面表示
 void Next::print() const
 {
 	int i;
@@ -68,10 +68,4 @@ void Next::print() const
 		<< str_next[6] << " "
 		<< str_next[7] << " "
 		<< std::endl;
-}
-
-void Next::print(const std::string title) const
-{
-	std::cout << title << std::endl;
-	Next::print();
 }

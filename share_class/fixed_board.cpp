@@ -10,17 +10,18 @@ Fixed_Board::~Fixed_Board()
 
 }
 
+// 指定盤面をセット
 void Fixed_Board::setFixedBoard(const int board_pattern)
 {
 	switch (board_pattern) {
-	case 1: setBoard(board_pattern_1);	break;
-	case 2:	setBoard(board_pattern_2);	break;
-	case 3:	setBoard(board_pattern_3);	break;
-	case 4:	setBoard(board_pattern_4);	break;
-	case 5:	setBoard(board_pattern_5);	break;
-	case 6:	setBoard(board_pattern_6);	break;
-	case 7:	setBoard(board_pattern_7);	break;
-	case 8:	setBoard(board_pattern_8);	break;
+	case 1:		setBoard(board_pattern_1);		break;
+	case 2:		setBoard(board_pattern_2);		break;
+	case 3:		setBoard(board_pattern_3);		break;
+	case 4:		setBoard(board_pattern_4);		break;
+	case 5:		setBoard(board_pattern_5);		break;
+	case 6:		setBoard(board_pattern_6);		break;
+	case 7:		setBoard(board_pattern_7);		break;
+	case 8:		setBoard(board_pattern_8);		break;
 	case 101:	setBoard(board_pattern_101);	break;
 	case 102:	setBoard(board_pattern_102);	break;
 	case 103:	setBoard(board_pattern_103);	break;

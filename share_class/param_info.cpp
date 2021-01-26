@@ -11,7 +11,7 @@ Param_Info::Param_Info(const std::string file_name)
     chain_coefficient       = param.get<double>("chain_coefficient");
     max_connection          = param.get<int>("max_connection");
     process_print_flag      = param.get<bool>("process_print_flag");
-    chain_coefficient_list = chain_coefficient_list_entity;
+    chain_coefficient_list  = chain_coefficient_list_entity;
     setChainCoefficientList();
 }
 
@@ -20,46 +20,55 @@ Param_Info::~Param_Info()
 
 }
 
+// ネクストの色を取得
 int Param_Info::getNextColor() const
 {
     return next_color;
 }
 
+// 盤面パターンを取得
 int Param_Info::getBoardPattern() const
 {
     return board_pattern;
 }
 
+// 最大なぞり消し数を取得
 int Param_Info::getMaxTrace() const
 {
     return max_trace;
 }
 
+// 同時消し係数を取得
 double Param_Info::getEliminationCoefficient() const
 {
     return elimination_coefficient;
 }
 
+// 連鎖係数倍率を取得
 double Param_Info::getChainCoefficient() const
 {
     return chain_coefficient;
 }
 
+// ぷよが消える最大結合数を取得
 int Param_Info::getMaxConnection() const
 {
     return max_connection;
 }
 
+// 連鎖倍率を取得
 double Param_Info::getChainMagnification(const int chain_count) const
 {
     return chain_coefficient_list[chain_count];
 }
 
+// 連鎖倍率を取得
 double Param_Info::getChainMagnification(const int chain_count, const double chain_coefficient) const
 {
     return 1 + basic_chain_coefficient[chain_count] * chain_coefficient;
 }
 
+// 連鎖係数をリストとして設定
 void Param_Info::setChainCoefficientList()
 {
     int i;
@@ -68,13 +77,16 @@ void Param_Info::setChainCoefficientList()
     }
 }
 
+// 連鎖過程を表示するか
 bool Param_Info::isProcessPrint() const
 {
     return process_print_flag;
 }
 
+// 情報表示
 void Param_Info::print() const
 {
+    std::cout << "---------------------設定情報---------------------" << std::endl;
     std::cout << "ネクストの色       : " << getNextColor() << std::endl;
     std::cout << "盤面パターン       : " << getBoardPattern() << std::endl;
     std::cout << "最大なぞり消し数   : " << getMaxTrace() << std::endl;

@@ -10,6 +10,7 @@ Fixed_Next::~Fixed_Next()
 
 }
 
+// 指定ネクストをセット
 void Fixed_Next::setFixedNext(const int next_color)
 {
 	switch (next_color) {
