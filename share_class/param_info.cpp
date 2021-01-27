@@ -77,15 +77,22 @@ void Param_Info::setChainCoefficientList()
     }
 }
 
-// 連鎖過程を表示するか
+// 連鎖過程を表示するか判定
 bool Param_Info::isProcessPrint() const
 {
     return process_print_flag;
 }
 
+// 連鎖過程を表示するか設定
+void Param_Info::setProcessPrintFlag(const bool flag)
+{
+    process_print_flag = flag;
+}
+
 // 情報表示
 void Param_Info::print() const
 {
+    std::string ipp = isProcessPrint() ? "表示する" : "表示しない";
     std::cout << "---------------------設定情報---------------------" << std::endl;
     std::cout << "ネクストの色       : " << getNextColor() << std::endl;
     std::cout << "盤面パターン       : " << getBoardPattern() << std::endl;
@@ -93,5 +100,5 @@ void Param_Info::print() const
     std::cout << "同時消し係数       : " << getEliminationCoefficient() << std::endl;
     std::cout << "連鎖係数           : " << getChainCoefficient() << std::endl;
     std::cout << "消える時の結合数   : " << getMaxConnection() << std::endl;
-    std::cout << "連鎖過程の表示     : " << isProcessPrint() << std::endl;
+    std::cout << "連鎖過程の表示     : " << ipp << std::endl;
 }

@@ -31,5 +31,6 @@ public:
 	double getChainMagnification(const int) const;
 	double getChainMagnification(const int, const double) const;
 	bool isProcessPrint() const;
+	void setProcessPrintFlag(const bool);
 	void print() const;
 };

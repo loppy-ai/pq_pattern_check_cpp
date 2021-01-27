@@ -10,13 +10,12 @@ private:
 	int board_entity[board_size] = { 0 };	// 盤面の実体
 	int *board;								// 盤面アクセス用のアドレス
 
-protected:
-	void setBoard(const int*);
-
 public:
 	Board();
 	~Board();
 
+	int* getBoard();
+	void setBoard(const int*);
 	int getBoardElement(const int) const;
 	void setBoardElement(const int, const int);
 	bool isColorPuyo(const int) const;

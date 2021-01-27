@@ -10,7 +10,13 @@ Board::~Board()
 
 }
 
-// ”Õ–Ê‰Šú‰»
+// ”Õ–Ê‚Ìæ“¾
+int* Board::getBoard()
+{
+	return board;
+}
+
+// ”Õ–Ê‚Ìİ’è
 void Board::setBoard(const int* input_board)
 {
 	int i;

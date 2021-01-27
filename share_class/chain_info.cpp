@@ -15,7 +15,9 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 {
 	bool chaining_flag = true;
 	int chain_count;
-	std::cout << "---------------------連鎖過程---------------------" << std::endl;
+	if (pi->isProcessPrint()) {
+		std::cout << "---------------------連鎖過程---------------------" << std::endl;
+	}
 	debugPrint(pi, next, board, "default");
 	debugPrint(pi, trace_pattern_board, "tracePattern");
 	// 盤面に対してなぞり消しパターンを適用
@@ -35,7 +37,7 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 			// ぷよが消えたら次の連鎖
 			++chain_count;
 			debugPrint(pi, next, board, "elimination");
-			debugChain(chain_count);
+			debugChain(pi, chain_count);
 			dropBoard(board);
 			debugPrint(pi, next, board, "dropBoard");
 		}
@@ -318,17 +320,19 @@ void Chain_Info::debugPrint(const Param_Info* pi, const Board* board, const std:
 }
 
 // 連鎖数ごとの情報表示
-void Chain_Info::debugChain(const int chain_count) const
+void Chain_Info::debugChain(const Param_Info* pi, const int chain_count) const
 {
-	int cc = chain_count - 1;
-	std::cout << chain_count << "連鎖目" << std::endl;
-	std::cout << "赤個数:" << getElementCountPerColorAndChain(Red, cc) << " 赤分離:" << getSeparateCountPerColorAndChain(Red, cc) << std::endl;
-	std::cout << "青個数:" << getElementCountPerColorAndChain(Blue, cc) << " 青分離:" << getSeparateCountPerColorAndChain(Blue, cc) << std::endl;
-	std::cout << "緑個数:" << getElementCountPerColorAndChain(Green, cc) << " 緑分離:" << getSeparateCountPerColorAndChain(Green, cc) << std::endl;
-	std::cout << "黄個数:" << getElementCountPerColorAndChain(Yellow, cc) << " 黄分離:" << getSeparateCountPerColorAndChain(Yellow, cc) << std::endl;
-	std::cout << "紫個数:" << getElementCountPerColorAndChain(Purple, cc) << " 紫分離:" << getSeparateCountPerColorAndChain(Purple, cc) << std::endl;
-	std::cout << "邪個数:" << getElementCountPerColorAndChain(Ojama, cc) << " 固個数:" << getElementCountPerColorAndChain(Kata, cc) << " ハ個数:" << getElementCountPerColorAndChain(Heart, cc) << " プ個数:" << getElementCountPerColorAndChain(Prism, cc) << std::endl;
-	std::cout << std::endl;
+	if (pi->isProcessPrint()) {
+		int cc = chain_count - 1;
+		std::cout << chain_count << "連鎖目" << std::endl;
+		std::cout << "赤個数:" << getElementCountPerColorAndChain(Red, cc) << " 赤分離:" << getSeparateCountPerColorAndChain(Red, cc) << std::endl;
+		std::cout << "青個数:" << getElementCountPerColorAndChain(Blue, cc) << " 青分離:" << getSeparateCountPerColorAndChain(Blue, cc) << std::endl;
+		std::cout << "緑個数:" << getElementCountPerColorAndChain(Green, cc) << " 緑分離:" << getSeparateCountPerColorAndChain(Green, cc) << std::endl;
+		std::cout << "黄個数:" << getElementCountPerColorAndChain(Yellow, cc) << " 黄分離:" << getSeparateCountPerColorAndChain(Yellow, cc) << std::endl;
+		std::cout << "紫個数:" << getElementCountPerColorAndChain(Purple, cc) << " 紫分離:" << getSeparateCountPerColorAndChain(Purple, cc) << std::endl;
+		std::cout << "邪個数:" << getElementCountPerColorAndChain(Ojama, cc) << " 固個数:" << getElementCountPerColorAndChain(Kata, cc) << " ハ個数:" << getElementCountPerColorAndChain(Heart, cc) << " プ個数:" << getElementCountPerColorAndChain(Prism, cc) << std::endl;
+		std::cout << std::endl;
+	}
 }
 
 // ある色・ある連鎖での消去数を取得

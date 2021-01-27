@@ -41,7 +41,7 @@ private:
 
 	void debugPrint(const Param_Info*, const Next*, const Board*, const std::string) const;
 	void debugPrint(const Param_Info*, const Board*, const std::string) const;
-	void debugChain(const int) const;
+	void debugChain(const Param_Info*, const int) const;
 
 	int getElementCountPerColorAndChain(const int, const int) const;
 	int getSeparateCountPerColorAndChain(const int, const int) const;
