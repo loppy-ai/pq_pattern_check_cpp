@@ -1,8 +1,6 @@
 ﻿#include "param_info.h"
 #include "trace_pattern_board.h"
-#include "next.h"
 #include "fixed_next.h"
-#include "board.h"
 #include "fixed_board.h"
 #include "chain_info.h"
 #include "print.h"

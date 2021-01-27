@@ -1,6 +1,5 @@
 #pragma once
 #include "board.h"
-#include "size.h"
 
 enum CheckBoardElement
 {
