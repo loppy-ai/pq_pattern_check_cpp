@@ -19,10 +19,7 @@ int* Board::getBoard()
 // ”Õ–Ê‚Ìİ’è
 void Board::setBoard(const int* input_board)
 {
-	int i;
-	for (i = 0; i < board_size; ++i) {
-		setBoardElement(i, input_board[i]);
-	}
+	std::memcpy(board, input_board, board_size * 4);	// int:4byte
 }
 
 // ”Õ–Ê‚Ì—v‘f‚ğæ“¾
