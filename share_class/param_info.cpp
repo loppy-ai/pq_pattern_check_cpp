@@ -23,7 +23,7 @@ Param_Info::Param_Info(const std::string file_name)
     max_trace               = 0;
     elimination_coefficient = param.get<double>("elimination_coefficient");
     chain_coefficient       = param.get<double>("chain_coefficient");
-    max_connection          = param.get<int>("max_connection");
+    max_connection          = (board_pattern < 100) ? 3 : 4;
     process_print_flag      = param.get<bool>("process_print_flag");
     max_trace_print_flag    = false;
     chain_coefficient_list  = chain_coefficient_list_entity;
