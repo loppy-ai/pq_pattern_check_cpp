@@ -11,17 +11,14 @@
 #include "print.h"
 #include "size.h"
 
-constexpr int frequency = 1000000;
+constexpr int frequency = 10000000;
 
 int getTracePatternSize(const int);
 
-int main()
+int main(int argc, char** argv)
 {
-    // パラメータ設定ファイル読み込み
-    Param_Info pi("param_config.cfg");
-    pi.setProcessPrintFlag(false);      // 最適解探索中は必ずfalseにすること
-    pi.print();
-
+    // パラメータ設定読み込み
+    Param_Info pi(argv);
     int trace_pattern_count = getTracePatternSize(pi.getMaxTrace());            // なぞり消しパターンの総数
     int max_access = (trace_pattern_count + (frequency - 1)) / frequency;       // DBアクセス回数
 
@@ -54,32 +51,29 @@ int main()
                 // frequency行分を一括取得
                 result = work.prepared("sql")(start + 1)(start + frequency).exec();
             }
+
             for (pqxx::result::const_iterator ite = result.begin(); ite != result.end(); ++ite) {
                 // 48文字のデータ
                 std::string board_string = ite[0].as(std::string());
-
                 // なぞり消し盤面設定
                 Board tpb;
                 for (int j = 0; j < board_size; ++j) {
-                    tpb.setBoardElement(j, board_string[j] - 48);
+                    tpb.setBoardElement(j, board_string[j] - 48);   // '0' to 0
                 }
-
                 // 初期盤面設定
                 Fixed_Next fnext(pi.getNextColor());
                 Fixed_Board fboard(pi.getBoardPattern());
-
                 // 連鎖情報生成
                 Chain_Info ci(&pi, &fnext, &fboard, &tpb);
-
                 // 最大チェック
                 double magnification = ci.getMagnificationPerColor(&pi, pi.getNextColor());
                 if (now_max_magnification < magnification) {
                     now_max_magnification = magnification;
                     now_max_board.setBoard(tpb.getBoard());     // 要素を全てコピー
                 }
-            } // end for
+            } // end for(result_ite)
             work.commit();
-        } // end for
+        } // end for(max_access)
         conn.disconnect();
     } // end try
     catch (const std::exception& e) {
@@ -87,13 +81,16 @@ int main()
         exit(1);
     }
 
+    // 時間表示
+    clock_t end_time = clock();
     std::cout << std::endl;
 
-    // 結果表示のためにもう一度計算…
-    Param_Info pi2("param_config.cfg");
+    // 結果表示のためにもう一度計算
+    pi.print();
+    std::cout << std::endl;
     Fixed_Next fnext(pi.getNextColor());
     Fixed_Board fboard(pi.getBoardPattern());
-    Chain_Info ci(&pi2, &fnext, &fboard, &now_max_board);
+    Chain_Info ci(&pi, &fnext, &fboard, &now_max_board);
     printResult(&pi, &ci);
     std::cout << std::endl;
 
@@ -101,33 +98,31 @@ int main()
     now_max_board.print();
     std::cout << std::endl;
 
-    // 時間表示
-    clock_t end_time = clock();
     const double time = (static_cast<double>(end_time) - static_cast<double>(start_time)) / CLOCKS_PER_SEC;
     std::cout << "処理時間 : " << time << std::endl;
     std::cout << std::endl;
 
     // ファイル出力
     std::stringstream file_name_stream;
-    file_name_stream << pi2.getNextColor() << "_" << pi2.getBoardPattern() << "_" << pi2.getMaxTrace() << "_" << pi2.getEliminationCoefficient() << "_" << pi2.getChainCoefficient() << ".txt";
+    file_name_stream << pi.getNextColor() << "_" << pi.getBoardPattern() << "_" << pi.getMaxTrace() << "_" << pi.getEliminationCoefficient() << "_" << pi.getChainCoefficient() << ".txt";
 
     std::ofstream outputfile(file_name_stream.str());
-    outputfile << "ネクストの色       : " << pi2.getNextColor() << "\n";
-    outputfile << "盤面パターン       : " << pi2.getBoardPattern() << "\n";
-    outputfile << "最大なぞり消し数   : " << pi2.getMaxTrace() << "\n";
-    outputfile << "同時消し係数       : " << pi2.getEliminationCoefficient() << "\n";
-    outputfile << "連鎖係数           : " << pi2.getChainCoefficient() << "\n";
-    outputfile << "消える時の結合数   : " << pi2.getMaxConnection() << "\n";
+    outputfile << "ネクストの色       : " << pi.getNextColor() << "\n";
+    outputfile << "盤面パターン       : " << pi.getBoardPattern() << "\n";
+    outputfile << "最大なぞり消し数   : " << pi.getMaxTrace() << "\n";
+    outputfile << "同時消し係数       : " << pi.getEliminationCoefficient() << "\n";
+    outputfile << "連鎖係数           : " << pi.getChainCoefficient() << "\n";
+    outputfile << "消える時の結合数   : " << pi.getMaxConnection() << "\n";
     outputfile << "\n";
     outputfile << "-----------------------------------" << "\n";
     outputfile << "|   色   |消去数|  倍率  |ペア倍率|" << "\n";
     outputfile << "-----------------------------------" << "\n";
-    outputfile << "|   赤   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Red) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi2, Red) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi2, Red) * 5.5 << "|" << "\n";
-    outputfile << "|   青   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Blue) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi2, Blue) << "| ------ |" << "\n";
-    outputfile << "|   緑   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Green) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi2, Green) << "| ------ |" << "\n";
-    outputfile << "|   黄   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Yellow) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi2, Yellow) << "| ------ |" << "\n";
-    outputfile << "|   紫   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Purple) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi2, Purple) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi2, Purple) * 5.5 << "|" << "\n";
-    outputfile << "|ワイルド| ---- |" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi2, None) << "| ------ |" << "\n";
+    outputfile << "|   赤   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Red) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Red) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Red) * 5.5 << "|" << "\n";
+    outputfile << "|   青   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Blue) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Blue) << "| ------ |" << "\n";
+    outputfile << "|   緑   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Green) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Green) << "| ------ |" << "\n";
+    outputfile << "|   黄   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Yellow) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Yellow) << "| ------ |" << "\n";
+    outputfile << "|   紫   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Purple) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Purple) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Purple) * 5.5 << "|" << "\n";
+    outputfile << "|ワイルド| ---- |" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, None) << "| ------ |" << "\n";
     outputfile << "-----------------------------------" << "\n";
     outputfile << "\n";
     for (int i = 0; i < row_size; ++i) {
@@ -141,6 +136,9 @@ int main()
             << now_max_board.getBoardElement(i * column_size + 6) << " "
             << now_max_board.getBoardElement(i * column_size + 7) << " " << "\n";
     }
+    outputfile << "\n";
+    outputfile << "処理時間(s) : " << time;
+    outputfile << "\n";
     outputfile.close();
 }
 
@@ -184,6 +182,9 @@ int getTracePatternSize(const int max_trace)
         break;
     case 12:
         size = 422742049;
+        break;
+    case 13:
+        size = 1559392541;
         break;
     default:
         break;

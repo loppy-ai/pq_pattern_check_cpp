@@ -19,7 +19,7 @@ int main()
     2からDBに登録したい場合は、all_countに48をセットすること    
     */
     Board board;
-    int max_trace = 9;     // 最大なぞり消し数
+    int max_trace = 13;     // 最大なぞり消し数
     int now_trace = 1;
     int nest_level = 0;
     std::string query = "";

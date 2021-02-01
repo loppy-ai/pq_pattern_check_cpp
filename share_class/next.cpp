@@ -13,11 +13,7 @@ Next::~Next()
 // ネクスト全てをある色に設定
 void Next::setNext(const int* input_next)
 {
-	int i;
-	for (i = 0; i < next_size; ++i)
-	{
-		next[i] = input_next[i];
-	}
+	std::memcpy(next, input_next, next_size * 4);	// int:4byte
 }
 
 // ネクストの要素を取得
@@ -35,22 +31,15 @@ void Next::setNextElement(const int no, const int val)
 // ネクストがあるか
 bool Next::isNone(const int no) const
 {
-	bool none_flag;
-	if (getNextElement(no) == None) {
-		none_flag = true;
-	}
-	else {
-		none_flag = false;
-	}
-	return none_flag;
+	if (getNextElement(no) == None)	return true;
+	return false;
 }
 
 // 盤面表示
 void Next::print() const
 {
-	int i;
 	std::string str_next[column_size];
-	for (i = 0; i < column_size; ++i) {
+	for (int i = 0; i < column_size; ++i) {
 		if (getNextElement(i) == None) {
 			str_next[i] = ".";
 		}

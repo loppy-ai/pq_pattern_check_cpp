@@ -13,46 +13,27 @@ Check_Board::~Check_Board()
 // 確認済か
 bool Check_Board::isConfirmed(const int no) const
 {
-	bool confirmed_flag;
 	switch (getBoardElement(no))
 	{
-	case Combined:
-		confirmed_flag = true;
-		break;
-	case Uncombined:
-		confirmed_flag = true;
-		break;
-	default:
-		confirmed_flag = false;
-		break;
+	case Combined:		return true;	break;
+	case Uncombined:	return true;	break;
+	default:			return false;	break;
 	}
-	return confirmed_flag;
+	return false;
 }
 
 // チェック中か
 bool Check_Board::isChecking(const int no) const
 {
-	bool checking_flag;
-	if (getBoardElement(no) == Checking) {
-		checking_flag = true;
-	}
-	else {
-		checking_flag = false;
-	}
-	return checking_flag;
+	if (getBoardElement(no) == Checking)	return true;
+	return false;
 }
 
 // 結合済か
 bool Check_Board::isCombined(const int no) const
 {
-	bool combined_flag;
-	if (getBoardElement(no) == Combined) {
-		combined_flag = true;
-	}
-	else {
-		combined_flag = false;
-	}
-	return combined_flag;
+	if (getBoardElement(no) == Combined)	return true;
+	return false;
 }
 
 // ある要素をチェック状態にする
@@ -76,51 +57,27 @@ void Check_Board::setBoardElementUncombined(const int no)
 // 上がelementと同じ状態か
 bool Check_Board::checkUpper(const int no, const int element) const
 {
-	bool match_flag;
-	if (getBoardElement(no - column_size) == element) {
-		match_flag = true;
-	}
-	else {
-		match_flag = false;
-	}
-	return match_flag;
+	if (getBoardElement(no - column_size) == element)	return true;
+	return false;
 }
 
 // 右がelementと同じ状態か
 bool Check_Board::checkRight(const int no, const int element) const
 {
-	bool match_flag;
-	if (getBoardElement(no + 1) == element) {
-		match_flag = true;
-	}
-	else {
-		match_flag = false;
-	}
-	return match_flag;
+	if (getBoardElement(no + 1) == element)	return true;
+	return false;
 }
 
 // 下がelementと同じ状態か
 bool Check_Board::checkLower(const int no, const int element) const
 {
-	bool match_flag;
-	if (getBoardElement(no + column_size) == element) {
-		match_flag = true;
-	}
-	else {
-		match_flag = false;
-	}
-	return match_flag;
+	if (getBoardElement(no + column_size) == element)	return true;
+	return false;
 }
 
 // 左がelementと同じ状態か
 bool Check_Board::checkLeft(const int no, const int element) const
 {
-	bool match_flag;
-	if (getBoardElement(no - 1) == element) {
-		match_flag = true;
-	}
-	else {
-		match_flag = false;
-	}
-	return match_flag;
+	if (getBoardElement(no - 1) == element)	return true;
+	return false;
 }

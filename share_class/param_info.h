@@ -14,12 +14,14 @@ private:
 	double elimination_coefficient;		// 同時消し係数
 	double chain_coefficient;			// 連鎖係数倍率
 	int max_connection;					// 最大結合数
+	bool max_trace_print_flag;			// 最大なぞり消し数表示フラグ
 	bool process_print_flag;			// 連鎖過程表示フラグ
 	double chain_coefficient_list_entity[max_num_of_chain] = { 0.0 };	// 連鎖係数リストの実体
 	double *chain_coefficient_list;										// 連鎖係数リストのアドレス
 	void setChainCoefficientList();
 
 public:
+	Param_Info(char**);
 	Param_Info(const std::string);
 	~Param_Info();
 	int getNextColor() const;
@@ -31,6 +33,5 @@ public:
 	double getChainMagnification(const int) const;
 	double getChainMagnification(const int, const double) const;
 	bool isProcessPrint() const;
-	void setProcessPrintFlag(const bool);
 	void print() const;
 };

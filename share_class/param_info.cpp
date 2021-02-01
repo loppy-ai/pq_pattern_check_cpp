@@ -1,16 +1,31 @@
 #include "param_info.h"
 #include "param.h"
 
+Param_Info::Param_Info(char** argv)
+{
+    next_color              = atoi(argv[1]);
+    board_pattern           = atoi(argv[2]);
+    max_trace               = atoi(argv[3]);
+    elimination_coefficient = atof(argv[4]);
+    chain_coefficient       = atof(argv[5]);
+    max_connection          = (board_pattern < 100) ? 3 : 4;
+    process_print_flag      = false;
+    max_trace_print_flag    = true;
+    chain_coefficient_list  = chain_coefficient_list_entity;
+    setChainCoefficientList();
+}
+
 Param_Info::Param_Info(const std::string file_name)
 {
     param::parameter param(file_name);
     next_color              = param.get<int>("next_color");
     board_pattern           = param.get<int>("board_pattern");
-    max_trace               = param.get<int>("max_trace");
+    max_trace               = 0;
     elimination_coefficient = param.get<double>("elimination_coefficient");
     chain_coefficient       = param.get<double>("chain_coefficient");
     max_connection          = param.get<int>("max_connection");
     process_print_flag      = param.get<bool>("process_print_flag");
+    max_trace_print_flag    = false;
     chain_coefficient_list  = chain_coefficient_list_entity;
     setChainCoefficientList();
 }
@@ -71,8 +86,7 @@ double Param_Info::getChainMagnification(const int chain_count, const double cha
 // 連鎖係数をリストとして設定
 void Param_Info::setChainCoefficientList()
 {
-    int i;
-    for (i = 0; i < max_num_of_chain; ++i) {
+    for (int i = 0; i < max_num_of_chain; ++i) {
         chain_coefficient_list_entity[i] = 1 + basic_chain_coefficient[i] * getChainCoefficient();
     }
 }
@@ -83,12 +97,6 @@ bool Param_Info::isProcessPrint() const
     return process_print_flag;
 }
 
-// 連鎖過程を表示するか設定
-void Param_Info::setProcessPrintFlag(const bool flag)
-{
-    process_print_flag = flag;
-}
-
 // 情報表示
 void Param_Info::print() const
 {
@@ -96,7 +104,9 @@ void Param_Info::print() const
     std::cout << "---------------------設定情報---------------------" << std::endl;
     std::cout << "ネクストの色       : " << getNextColor() << std::endl;
     std::cout << "盤面パターン       : " << getBoardPattern() << std::endl;
-    std::cout << "最大なぞり消し数   : " << getMaxTrace() << std::endl;
+    if (max_trace_print_flag) {
+        std::cout << "最大なぞり消し数   : " << getMaxTrace() << std::endl;
+    }
     std::cout << "同時消し係数       : " << getEliminationCoefficient() << std::endl;
     std::cout << "連鎖係数           : " << getChainCoefficient() << std::endl;
     std::cout << "消える時の結合数   : " << getMaxConnection() << std::endl;

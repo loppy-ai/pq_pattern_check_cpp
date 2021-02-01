@@ -37,194 +37,110 @@ void Board::setBoardElement(const int no, const int val)
 // 色ぷよか
 bool Board::isColorPuyo(const int no) const
 {
-	bool color_puyo_flag;
 	switch (getBoardElement(no))
 	{
-	case Ojama:		// おじゃまぷよ
-		color_puyo_flag = false;
-		break;
-	case Kata:		// かたぷよ
-		color_puyo_flag = false;
-		break;
-	case Heart:		// ハート
-		color_puyo_flag = false;
-		break;
-	case None:		// 無し
-		color_puyo_flag = false;
-		break;
-	case Prism:		// プリズム
-		color_puyo_flag = false;
-		break;
-	default:
-		color_puyo_flag = true;
-		break;
+	case Ojama:	return false;	break;
+	case Kata:	return false;	break;
+	case Heart:	return false;	break;
+	case None:	return false;	break;
+	case Prism:	return false;	break;
+	default:	return true;
 	}
-	return color_puyo_flag;
+	return true;
 }
 
 // 周囲に巻き込まれて消えるか
 bool Board::isInfluenced(const int no) const
 {
-	bool influenced_flag;
 	switch (getBoardElement(no))
 	{
-	case Ojama:		// おじゃまぷよ
-		influenced_flag = true;
-		break;
-	case Kata:		// かたぷよ
-		influenced_flag = true;
-		break;
-	case Heart:		// ハート
-		influenced_flag = true;
-		break;
-	case Prism:		// プリズム
-		influenced_flag = true;
-		break;
-	default:
-		influenced_flag = false;
-		break;
+	case Ojama:	return true;	break;
+	case Kata:	return true;	break;
+	case Heart:	return true;	break;
+	case Prism:	return true;	break;
+	default:	return false;	break;
 	}
-	return influenced_flag;
+	return false;
 }
 
 // ぷよが存在しないか
 bool Board::isNone(const int no) const
 {
-	bool none_flag;
-	if (getBoardElement(no) == None) {
-		none_flag = true;
-	}
-	else {
-		none_flag = false;
-	}
-	return none_flag;
+	if (getBoardElement(no) == None)	return true;
+	return false;
 }
 
 // ぷよの結合が起こったか
 bool Board::isEliminationHappened() const
 {
-	int i;
-	bool elimination_flag = false;
-	for (i = 0; i < board_size; ++i) {
-		if (getBoardElement(i) == Elimination) {
-			elimination_flag = true;
-			break;
-		}
+	for (int i = 0; i < board_size; ++i) {
+		if (getBoardElement(i) == Elimination)	return true;
 	}
-	return elimination_flag;
+	return false;
 }
 
 // 上段があるか
 bool Board::canGetUpperRow(const int no) const
 {
-	bool can_get_flag;
-	if (no >= column_size) {
-		can_get_flag = true;
-	}
-	else {
-		can_get_flag = false;
-	}
-	return can_get_flag;
+	if (no >= column_size)	return true;
+	return false;
 }
 
 // 右列があるか
 bool Board::canGetRightColumn(const int no) const
 {
-	bool can_get_flag;
-	if (no % column_size != column_size - 1) {
-		can_get_flag = true;
-	}
-	else {
-		can_get_flag = false;
-	}
-	return can_get_flag;
+	if (no % column_size != column_size - 1)	return true;
+	return false;
 }
 
 // 下段があるか
 bool Board::canGetLowerRow(const int no) const
 {
-	bool can_get_flag;
-	if (no < board_size - column_size) {
-		can_get_flag = true;
-	}
-	else {
-		can_get_flag = false;
-	}
-	return can_get_flag;
+	if (no < board_size - column_size)	return true;
+	return false;
 }
 
 // 左列があるか
 bool Board::canGetLeftColumn(const int no) const
 {
-	bool can_get_flag;
-	if (no % column_size != 0) {
-		can_get_flag = true;
-	}
-	else {
-		can_get_flag = false;
-	}
-	return can_get_flag;
+	if (no % column_size != 0)	return true;
+	return false;
 }
 
 // 現在の箇所が上の色と同じか
 bool Board::isSameUpper(const int no) const
 {
-	bool is_same_flag;
-	if (getBoardElement(no) == getBoardElement(no - column_size)) {
-		is_same_flag = true;
-	}
-	else {
-		is_same_flag = false;
-	}
-	return is_same_flag;
+	if (getBoardElement(no) == getBoardElement(no - column_size))	return true;
+	return false;
 }
 
 // 現在の箇所が右の色と同じか
 bool Board::isSameRight(const int no) const
 {
-	bool is_same_flag;
-	if (getBoardElement(no) == getBoardElement(no + 1)) {
-		is_same_flag = true;
-	}
-	else {
-		is_same_flag = false;
-	}
-	return is_same_flag;
+	if (getBoardElement(no) == getBoardElement(no + 1))	return true;
+	return false;
 }
 
 // 現在の箇所が下の色と同じか
 bool Board::isSameLower(const int no) const
 {
-	bool is_same_flag;
-	if (getBoardElement(no) == getBoardElement(no + column_size)) {
-		is_same_flag = true;
-	}
-	else {
-		is_same_flag = false;
-	}
-	return is_same_flag;
+	if (getBoardElement(no) == getBoardElement(no + column_size))	return true;
+	return false;
 }
 
 // 現在の箇所が左の色と同じか
 bool Board::isSameLeft(const int no) const
 {
-	bool is_same_flag;
-	if (getBoardElement(no) == getBoardElement(no - 1)) {
-		is_same_flag = true;
-	}
-	else {
-		is_same_flag = false;
-	}
-	return is_same_flag;
+	if (getBoardElement(no) == getBoardElement(no - 1))	return true;
+	return false;
 }
 
 // 盤面表示
 void Board::print() const
 {
-	int i, j;
 	std::string str_board[column_size];
-	for (i = 0; i < row_size; ++i) {
-		for (j = 0; j < column_size; ++j) {
+	for (int i = 0; i < row_size; ++i) {
+		for (int j = 0; j < column_size; ++j) {
 			if (getBoardElement(i * column_size + j) == None) {
 				str_board[j] = ".";
 			}
