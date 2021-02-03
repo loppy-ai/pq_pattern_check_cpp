@@ -8,6 +8,7 @@ Param_Info::Param_Info(char** argv)
     max_trace               = atoi(argv[3]);
     elimination_coefficient = atof(argv[4]);
     chain_coefficient       = atof(argv[5]);
+    max_color               = atoi(argv[6]);
     max_connection          = (board_pattern < 100) ? 3 : 4;
     process_print_flag      = false;
     max_trace_print_flag    = true;
@@ -23,6 +24,7 @@ Param_Info::Param_Info(const std::string file_name)
     max_trace               = 0;
     elimination_coefficient = param.get<double>("elimination_coefficient");
     chain_coefficient       = param.get<double>("chain_coefficient");
+    max_color               = 0;
     max_connection          = (board_pattern < 100) ? 3 : 4;
     process_print_flag      = param.get<bool>("process_print_flag");
     max_trace_print_flag    = false;
@@ -63,6 +65,12 @@ double Param_Info::getEliminationCoefficient() const
 double Param_Info::getChainCoefficient() const
 {
     return chain_coefficient;
+}
+
+// 求めたい色を取得
+int Param_Info::getMaxColor() const
+{
+    return max_color;
 }
 
 // ぷよが消える最大結合数を取得
@@ -109,6 +117,9 @@ void Param_Info::print() const
     }
     std::cout << "同時消し係数       : " << getEliminationCoefficient() << std::endl;
     std::cout << "連鎖係数           : " << getChainCoefficient() << std::endl;
+    if (max_trace_print_flag) {
+        std::cout << "求めたい色         : " << getMaxColor() << std::endl;
+    }
     std::cout << "消える時の結合数   : " << getMaxConnection() << std::endl;
     std::cout << "連鎖過程の表示     : " << ipp << std::endl;
 }

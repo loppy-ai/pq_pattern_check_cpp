@@ -66,7 +66,7 @@ int main(int argc, char** argv)
                 // 連鎖情報生成
                 Chain_Info ci(&pi, &fnext, &fboard, &tpb);
                 // 最大チェック
-                double magnification = ci.getMagnificationPerColor(&pi, pi.getNextColor());
+                double magnification = ci.getMagnificationPerColor(&pi, pi.getMaxColor());
                 if (now_max_magnification < magnification) {
                     now_max_magnification = magnification;
                     now_max_board.setBoard(tpb.getBoard());     // 要素を全てコピー
@@ -104,7 +104,7 @@ int main(int argc, char** argv)
 
     // ファイル出力
     std::stringstream file_name_stream;
-    file_name_stream << pi.getNextColor() << "_" << pi.getBoardPattern() << "_" << pi.getMaxTrace() << "_" << pi.getEliminationCoefficient() << "_" << pi.getChainCoefficient() << ".txt";
+    file_name_stream << pi.getNextColor() << "_" << pi.getBoardPattern() << "_" << pi.getMaxTrace() << "_" << pi.getEliminationCoefficient() << "_" << pi.getChainCoefficient() << "_" << pi.getMaxColor() << ".txt";
 
     std::ofstream outputfile(file_name_stream.str());
     outputfile << "ネクストの色       : " << pi.getNextColor() << "\n";
@@ -112,6 +112,7 @@ int main(int argc, char** argv)
     outputfile << "最大なぞり消し数   : " << pi.getMaxTrace() << "\n";
     outputfile << "同時消し係数       : " << pi.getEliminationCoefficient() << "\n";
     outputfile << "連鎖係数           : " << pi.getChainCoefficient() << "\n";
+    outputfile << "求めたい色         : " << pi.getMaxColor() << "\n";
     outputfile << "消える時の結合数   : " << pi.getMaxConnection() << "\n";
     outputfile << "\n";
     outputfile << "-----------------------------------" << "\n";
@@ -127,14 +128,14 @@ int main(int argc, char** argv)
     outputfile << "\n";
     for (int i = 0; i < row_size; ++i) {
         outputfile
-            << now_max_board.getBoardElement(i * column_size) << " "
-            << now_max_board.getBoardElement(i * column_size + 1) << " "
-            << now_max_board.getBoardElement(i * column_size + 2) << " "
-            << now_max_board.getBoardElement(i * column_size + 3) << " "
-            << now_max_board.getBoardElement(i * column_size + 4) << " "
-            << now_max_board.getBoardElement(i * column_size + 5) << " "
-            << now_max_board.getBoardElement(i * column_size + 6) << " "
-            << now_max_board.getBoardElement(i * column_size + 7) << " " << "\n";
+            << now_max_board.getBoardElement(i * column_size)
+            << now_max_board.getBoardElement(i * column_size + 1)
+            << now_max_board.getBoardElement(i * column_size + 2)
+            << now_max_board.getBoardElement(i * column_size + 3)
+            << now_max_board.getBoardElement(i * column_size + 4)
+            << now_max_board.getBoardElement(i * column_size + 5)
+            << now_max_board.getBoardElement(i * column_size + 6)
+            << now_max_board.getBoardElement(i * column_size + 7) << "\n";
     }
     outputfile << "\n";
     outputfile << "処理時間(s) : " << time;

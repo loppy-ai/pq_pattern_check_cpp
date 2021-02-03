@@ -13,6 +13,7 @@ private:
 	int max_trace;						// 最大なぞり消し数
 	double elimination_coefficient;		// 同時消し係数
 	double chain_coefficient;			// 連鎖係数倍率
+	int max_color;						// 最大値を求めたい色
 	int max_connection;					// 最大結合数
 	bool max_trace_print_flag;			// 最大なぞり消し数表示フラグ
 	bool process_print_flag;			// 連鎖過程表示フラグ
@@ -29,6 +30,7 @@ public:
 	int getMaxTrace() const;
 	double getEliminationCoefficient() const;
 	double getChainCoefficient() const;
+	int getMaxColor() const;
 	int getMaxConnection() const;
 	double getChainMagnification(const int) const;
 	double getChainMagnification(const int, const double) const;
