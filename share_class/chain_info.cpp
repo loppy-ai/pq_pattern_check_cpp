@@ -14,6 +14,9 @@ Chain_Info::~Chain_Info()
 void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Board* trace_pattern_board)
 {
 	bool chaining_flag = true;
+#ifdef SW_NEXT_FELL_END
+	bool next_fell_flag = false;
+#endif // SW_NEXT_FELL_END
 	if (pi->isProcessPrint()) {
 		std::cout << "---------------------˜A½‰ß’ö---------------------" << std::endl;
 	}
@@ -39,6 +42,13 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 			debugChain(pi, chain_count);
 			dropBoard(board);
 			debugPrint(pi, next, board, "dropBoard");
+#ifdef SW_NEXT_FELL_END
+			// next‚ª—Ž‚¿‚½‚±‚Æ‚É‚æ‚é‚Õ‚æÁ‚µ‚Å‚ ‚ê‚ÎI—¹‚Æ‚·‚é
+			if (next_fell_flag) {
+				num_of_chain = chain_count;
+				break;
+			}
+#endif // SW_NEXT_FELL_END
 		}
 		else {
 			// ‚Õ‚æ‚ªÁ‚¦‚È‚©‚Á‚½‚çnext‚ð—Ž‚Æ‚·
@@ -47,6 +57,10 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 				chaining_flag = false;
 			}
 			debugPrint(pi, next, board, "dropNext");
+#ifdef SW_NEXT_FELL_END
+			// next‚ª—Ž‚¿‚½
+			next_fell_flag = true;
+#endif // SW_NEXT_FELL_END
 		}
 		if (chaining_flag == false) {
 			num_of_chain = chain_count;
@@ -279,11 +293,12 @@ void Chain_Info::debugChain(const Param_Info* pi, const int chain_count) const
 	if (pi->isProcessPrint()) {
 		int cc = chain_count - 1;
 		std::cout << chain_count << "˜A½–Ú" << std::endl;
-		std::cout << "ÔŒÂ”:" << getElementCountPerColorAndChain(Red, cc) << " Ô•ª—£:" << getSeparateCountPerColorAndChain(Red, cc) << std::endl;
-		std::cout << "ÂŒÂ”:" << getElementCountPerColorAndChain(Blue, cc) << " Â•ª—£:" << getSeparateCountPerColorAndChain(Blue, cc) << std::endl;
-		std::cout << "—ÎŒÂ”:" << getElementCountPerColorAndChain(Green, cc) << " —Î•ª—£:" << getSeparateCountPerColorAndChain(Green, cc) << std::endl;
-		std::cout << "‰©ŒÂ”:" << getElementCountPerColorAndChain(Yellow, cc) << " ‰©•ª—£:" << getSeparateCountPerColorAndChain(Yellow, cc) << std::endl;
-		std::cout << "Ž‡ŒÂ”:" << getElementCountPerColorAndChain(Purple, cc) << " Ž‡•ª—£:" << getSeparateCountPerColorAndChain(Purple, cc) << std::endl;
+		std::cout << "ÔŒÂ”:" << getElementCountPerColorAndChain(Red, cc) << " Ô•ª—£:" << getSeparateCountPerColorAndChain(Red, cc) << " Ô”{—¦:" << getMagnificationPerColorAndChain(pi, Red, cc) << std::endl;
+		std::cout << "ÂŒÂ”:" << getElementCountPerColorAndChain(Blue, cc) << " Â•ª—£:" << getSeparateCountPerColorAndChain(Blue, cc) << " Â”{—¦:" << getMagnificationPerColorAndChain(pi, Blue, cc) << std::endl;
+		std::cout << "—ÎŒÂ”:" << getElementCountPerColorAndChain(Green, cc) << " —Î•ª—£:" << getSeparateCountPerColorAndChain(Green, cc) << " —Î”{—¦:" << getMagnificationPerColorAndChain(pi, Green, cc) << std::endl;
+		std::cout << "‰©ŒÂ”:" << getElementCountPerColorAndChain(Yellow, cc) << " ‰©•ª—£:" << getSeparateCountPerColorAndChain(Yellow, cc) << " ‰©”{—¦:" << getMagnificationPerColorAndChain(pi, Yellow, cc) << std::endl;
+		std::cout << "Ž‡ŒÂ”:" << getElementCountPerColorAndChain(Purple, cc) << " Ž‡•ª—£:" << getSeparateCountPerColorAndChain(Purple, cc) << " Ž‡”{—¦:" << getMagnificationPerColorAndChain(pi, Purple, cc) << std::endl;
+		std::cout << "ƒŒÂ”:" << getElementCountPerChain(cc) << " ƒ•ª—£:" << getSeparateCountPerChain(cc) << " ƒ”{—¦:" << getMagnificationPerColorAndChain(pi, None, cc) << std::endl;
 		std::cout << "Ž×ŒÂ”:" << getElementCountPerColorAndChain(Ojama, cc) << " ŒÅŒÂ”:" << getElementCountPerColorAndChain(Kata, cc) << " ƒnŒÂ”:" << getElementCountPerColorAndChain(Heart, cc) << " ƒvŒÂ”:" << getElementCountPerColorAndChain(Prism, cc) << std::endl;
 		std::cout << std::endl;
 	}
