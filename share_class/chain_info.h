@@ -30,6 +30,7 @@ private:
 
 	void chain(const Param_Info*, Next*, Board*, const Board*);
 	void applyTracePattern(Board*, const Board*);
+	void applyTracePatternBlue(Board*, const Board*);
 	void dropBoard(Board*);
 	void checkConnection(const int, const Param_Info*, Board*, Check_Board*);
 	int recursionCheckConnection(const int, Board*, Check_Board*, int);
