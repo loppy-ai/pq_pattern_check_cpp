@@ -67,6 +67,10 @@ int main(int argc, char** argv)
                 Chain_Info ci(&pi, &fnext, &fboard, &tpb);
                 // 最大チェック
                 double magnification = ci.getMagnificationPerColor(&pi, pi.getMaxColor());
+                int prism_count = ci.getElementCountPerColor(Prism);
+                if ((pi.getBoardPattern() > 210) && (pi.getBoardPattern() < 220) && (prism_count == 0)) {
+                    continue;   // しろいマール盤面でプリズムボールを消していなかったら何もしない
+                }
                 if (now_max_magnification < magnification) {
                     now_max_magnification = magnification;
                     now_max_board.setBoard(tpb.getBoard());     // 要素を全てコピー
