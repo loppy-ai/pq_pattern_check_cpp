@@ -25,7 +25,12 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 	if ((pi->getBoardPattern() > 200) && (pi->getBoardPattern() < 300)) {
 		// しろいマール盤面
 		applyTracePatternBlue(board, trace_pattern_board);
-	}else {
+	}
+	else if ((pi->getBoardPattern() > 300) && (pi->getBoardPattern() < 400)) {
+		// あたり＆プーボ盤面
+		applyTracePatternYellow(board, trace_pattern_board);
+	}
+	else {
 		// 盤面に対してなぞり消しパターンを適用
 		applyTracePattern(board, trace_pattern_board);
 	}
@@ -88,6 +93,15 @@ void Chain_Info::applyTracePatternBlue(Board* board, const Board* trace_pattern_
 	for (int i = 0; i < board_size; ++i) {
 		if (trace_pattern_board->getBoardElement(i) == 1) {
 			board->setBoardElement(i, Blue);
+		}
+	}
+}
+
+// なぞり消しパターンを適用（あたり＆プーボ用）
+void Chain_Info::applyTracePatternYellow(Board* board, const Board* trace_pattern_board) {
+	for (int i = 0; i < board_size; ++i) {
+		if (trace_pattern_board->getBoardElement(i) == 1) {
+			board->setBoardElement(i, Yellow);
 		}
 	}
 }

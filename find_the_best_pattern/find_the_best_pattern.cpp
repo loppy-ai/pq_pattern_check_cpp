@@ -68,8 +68,15 @@ int main(int argc, char** argv)
                 // 最大チェック
                 double magnification = ci.getMagnificationPerColor(&pi, pi.getMaxColor());
                 int prism_count = ci.getElementCountPerColor(Prism);
+                int blue_count = ci.getElementCountPerColor(Blue);
                 if ((pi.getBoardPattern() > 210) && (pi.getBoardPattern() < 220) && (prism_count == 0)) {
                     continue;   // しろいマール盤面でプリズムボールを消していなかったら何もしない
+                }
+                if ((pi.getBoardPattern() > 310) && (pi.getBoardPattern() < 320) && (prism_count == 0)) {
+                    continue;   // あたり＆プーボ盤面でプリズムボールを消していなかったら何もしない
+                }
+                if ((pi.getBoardPattern() == 323) && (blue_count == 0)) {
+                    continue;   // あたり＆プーボ盤面3で青ぷよを消していなかったら何もしない
                 }
                 if (now_max_magnification < magnification) {
                     now_max_magnification = magnification;
@@ -123,9 +130,9 @@ int main(int argc, char** argv)
     outputfile << "|   色   |消去数|  倍率  |ペア倍率|" << "\n";
     outputfile << "-----------------------------------" << "\n";
     outputfile << "|   赤   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Red) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Red) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Red) * 5.5 << "|" << "\n";
-    outputfile << "|   青   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Blue) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Blue) << "| ------ |" << "\n";
-    outputfile << "|   緑   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Green) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Green) << "| ------ |" << "\n";
-    outputfile << "|   黄   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Yellow) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Yellow) << "| ------ |" << "\n";
+    outputfile << "|   青   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Blue) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Blue) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Blue) * 6.2 << "|" << "\n";
+    outputfile << "|   緑   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Green) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Green) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Green) * 4.5 << "|" << "\n";
+    outputfile << "|   黄   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Yellow) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Yellow) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Yellow) * 5.5 << "|" << "\n";
     outputfile << "|   紫   |" << std::right << std::setw(6) << ci.getElementCountPerColor(Purple) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Purple) << "|" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, Purple) * 5.5 << "|" << "\n";
     outputfile << "|ワイルド| ---- |" << std::right << std::setw(8) << std::fixed << std::setprecision(2) << ci.getMagnificationPerColor(&pi, None) << "| ------ |" << "\n";
     outputfile << "-----------------------------------" << "\n";
