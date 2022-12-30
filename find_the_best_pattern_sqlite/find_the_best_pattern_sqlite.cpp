@@ -190,16 +190,16 @@ int main(int argc, char** argv)
                 << now_max_board[i].getBoardElement(j * column_size + 7) << "\n";
         }
         outputfile << "\n";
-        outputfile << "-----------------------------------" << "\n";
-        outputfile << "|   色   |消去数|  倍率  |ペア倍率|" << "\n";
-        outputfile << "-----------------------------------" << "\n";
-        outputfile << "|   赤   |" << right << setw(6) << ci.getElementCountPerColor(Red) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Red) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Red) * 6.0 << "|" << "\n";
-        outputfile << "|   青   |" << right << setw(6) << ci.getElementCountPerColor(Blue) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Blue) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Blue) * 6.2 << "|" << "\n";
-        outputfile << "|   緑   |" << right << setw(6) << ci.getElementCountPerColor(Green) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Green) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Green) * 4.5 << "|" << "\n";
-        outputfile << "|   黄   |" << right << setw(6) << ci.getElementCountPerColor(Yellow) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Yellow) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Yellow) * 5.5 << "|" << "\n";
-        outputfile << "|   紫   |" << right << setw(6) << ci.getElementCountPerColor(Purple) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Purple) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Purple) * 5.5 << "|" << "\n";
-        outputfile << "|ワイルド| ---- |" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, None) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, None) * 2.2 << "|" << "\n";
-        outputfile << "-----------------------------------" << "\n";
+        outputfile << "-----------------------------------------" << "\n";
+        outputfile << "|   色   |消去数|  倍率  |  発生値倍率  |" << "\n";
+        outputfile << "-----------------------------------------" << "\n";
+        outputfile << "|   赤   |" << right << setw(6) << ci.getElementCountPerColor(Red)    << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Red)    << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Red)    * 6.0 << "(x6.0)|" << "\n";
+        outputfile << "|   青   |" << right << setw(6) << ci.getElementCountPerColor(Blue)   << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Blue)   << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Blue)   * 6.2 << "(x6.2)|" << "\n";
+        outputfile << "|   緑   |" << right << setw(6) << ci.getElementCountPerColor(Green)  << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Green)  << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Green)  * 4.5 << "(x4.5)|" << "\n";
+        outputfile << "|   黄   |" << right << setw(6) << ci.getElementCountPerColor(Yellow) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Yellow) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Yellow) * 5.5 << "(x5.5)|" << "\n";
+        outputfile << "|   紫   |" << right << setw(6) << ci.getElementCountPerColor(Purple) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Purple) << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, Purple) * 5.5 << "(x5.5)|" << "\n";
+        outputfile << "|ワイルド| ---- |"                                                           << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, None)   << "|" << right << setw(8) << fixed << setprecision(2) << ci.getMagnificationPerColor(&pi, None)   * 2.2 << "(x2.2)|" << "\n";
+        outputfile << "-----------------------------------------" << "\n";
         outputfile << "\n";
     }
     outputfile << "処理時間(s) : " << time;

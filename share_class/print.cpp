@@ -7,7 +7,7 @@ void printResult(const Param_Info* pi, const Chain_Info* ci)
     cout << "-----------------------------------" << endl;
     cout << "|   F   |Á‹Ž”|  ”{—¦  |ƒyƒA”{—¦|" << endl;
     cout << "-----------------------------------" << endl;
-    cout << "|   Ô   |" << right << setw(6) << ci->getElementCountPerColor(Red) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Red) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Red) * 5.5 << "|" << endl;
+    cout << "|   Ô   |" << right << setw(6) << ci->getElementCountPerColor(Red) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Red) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Red) * 6.0 << "|" << endl;
     cout << "|   Â   |" << right << setw(6) << ci->getElementCountPerColor(Blue) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Blue) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Blue) * 6.2 << "|" << endl;
     cout << "|   —Î   |" << right << setw(6) << ci->getElementCountPerColor(Green) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Green) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Green) * 4.5 << "|" << endl;
     cout << "|   ‰©   |" << right << setw(6) << ci->getElementCountPerColor(Yellow) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Yellow) << "|" << right << setw(8) << fixed << setprecision(2) << ci->getMagnificationPerColor(pi, Yellow) * 5.5 << "|" << endl;
