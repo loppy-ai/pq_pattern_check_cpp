@@ -37,6 +37,9 @@ void Board::setBoardElement(const int no, const int val)
 // 色ぷよか
 bool Board::isColorPuyo(const int no) const
 {
+	if (getBoardElement(no) <= Purple) {
+		return true;
+	}
 	switch (getBoardElement(no))
 	{
 	case Ojama:	return false;	break;
@@ -44,7 +47,7 @@ bool Board::isColorPuyo(const int no) const
 	case Heart:	return false;	break;
 	case None:	return false;	break;
 	case Prism:	return false;	break;
-	default:	return true;
+	default:	return true;	break;
 	}
 	return true;
 }
@@ -52,6 +55,9 @@ bool Board::isColorPuyo(const int no) const
 // 周囲に巻き込まれて消えるか
 bool Board::isInfluenced(const int no) const
 {
+	if (getBoardElement(no) <= Purple) {
+		return false;
+	}
 	switch (getBoardElement(no))
 	{
 	case Ojama:	return true;	break;
@@ -70,7 +76,7 @@ bool Board::isNone(const int no) const
 	return false;
 }
 
-// ぷよの結合が起こったか
+// ぷよの消去が起こったか
 bool Board::isEliminationHappened() const
 {
 	for (int i = 0; i < board_size; ++i) {
@@ -89,7 +95,7 @@ bool Board::canGetUpperRow(const int no) const
 // 右列があるか
 bool Board::canGetRightColumn(const int no) const
 {
-	if (no % column_size != column_size - 1)	return true;
+	if ((no & (column_size - 1)) != column_size - 1)	return true;
 	return false;
 }
 
@@ -103,7 +109,7 @@ bool Board::canGetLowerRow(const int no) const
 // 左列があるか
 bool Board::canGetLeftColumn(const int no) const
 {
-	if (no % column_size != 0)	return true;
+	if ((no & (column_size - 1)) != 0)	return true;
 	return false;
 }
 

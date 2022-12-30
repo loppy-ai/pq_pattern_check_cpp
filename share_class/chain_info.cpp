@@ -17,11 +17,13 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 #ifdef SW_NEXT_FELL_END
 	bool next_fell_flag = false;
 #endif // SW_NEXT_FELL_END
+#ifdef SW_DISP_RESULT
 	if (pi->isProcessPrint()) {
-		std::cout << "---------------------連鎖過程---------------------" << std::endl;
+	    std::cout << "---------------------連鎖過程---------------------" << std::endl;
 	}
 	debugPrint(pi, next, board, "default");
 	debugPrint(pi, trace_pattern_board, "tracePattern");
+#endif	// SW_DISP_RESULT
 	if ((pi->getBoardPattern() > 200) && (pi->getBoardPattern() < 300)) {
 		// しろいマール盤面
 		applyTracePatternBlue(board, trace_pattern_board);
@@ -34,10 +36,14 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 		// 盤面に対してなぞり消しパターンを適用
 		applyTracePattern(board, trace_pattern_board);
 	}
+#ifdef SW_DISP_RESULT
 	debugPrint(pi, next, board, "applyedTracePattern");
+#endif	// SW_DISP_RESULT
 	// 消えた部分を落とす
 	dropBoard(board);
+#ifdef SW_DISP_RESULT
 	debugPrint(pi, next, board, "dropBoard");
+#endif	// SW_DISP_RESULT
 
 	// 連鎖数分ループ
 	for (int chain_count = 0; chain_count <= max_num_of_chain; /* no-increment */ ) {
@@ -48,10 +54,14 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 		if (board->isEliminationHappened()) {
 			// ぷよが消えたら次の連鎖
 			++chain_count;
+#ifdef SW_DISP_RESULT
 			debugPrint(pi, next, board, "elimination");
 			debugChain(pi, chain_count);
+#endif	// SW_DISP_RESULT
 			dropBoard(board);
+#ifdef SW_DISP_RESULT
 			debugPrint(pi, next, board, "dropBoard");
+#endif	// SW_DISP_RESULT
 #ifdef SW_NEXT_FELL_END
 			// nextが落ちたことによるぷよ消しであれば終了とする
 			if (next_fell_flag) {
@@ -66,7 +76,9 @@ void Chain_Info::chain(const Param_Info* pi, Next* next, Board* board, const Boa
 				// nextが落ちなくなったら連鎖終了
 				chaining_flag = false;
 			}
+#ifdef SW_DISP_RESULT
 			debugPrint(pi, next, board, "dropNext");
+#endif	// SW_DISP_RESULT
 #ifdef SW_NEXT_FELL_END
 			// nextが落ちた
 			next_fell_flag = true;
@@ -137,9 +149,11 @@ void Chain_Info::dropBoard(Board* board)
 // 結合チェック
 void Chain_Info::checkConnection(const int chain_count, const Param_Info* pi, Board* board, Check_Board* check_board)
 {
+	const int max_connection = pi->getMaxConnection();
+
 	// 色ぷよ以外はチェック済(未結合)にする
 	for (int i = 0; i < board_size; ++i) {
-		if (!board->isColorPuyo(i)) {
+		if (!(board->isColorPuyo(i))) {
 			check_board->setBoardElementUncombined(i);
 		}
 	}
